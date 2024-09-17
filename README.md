@@ -11,17 +11,27 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/to/develop-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+# OkColor
+
+A Dart package for working with colors in the Oklab color space, providing utilities for color manipulation, conversion, and analysis.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Convert between RGB, HSV, HSL, and Oklab color spaces
+- Perform color manipulations like lightening, darkening, and saturation adjustments
+- Generate color palettes and gradients
+- Gamut mapping and clipping functions
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add `okcolor` to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  okcolor: ^0.1.0
+```
+
+Then run `dart pub get` or `flutter pub get`.
 
 ## Usage
 
