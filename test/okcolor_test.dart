@@ -1,65 +1,115 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:okcolor/gradient.dart';
-// import 'package:okcolor/okcolor.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:okcolor/converters/xyz_lab.dart';
+import 'package:okcolor/models/okcolor_base.dart';
 
-// void main() {
-//   group('OkHsv', () {
-//     test('Constructor should handle various input ranges', () {
-//       const color1 = OkHsv(h: 180, s: 0.5, v: 0.7);
-//       expect(color1.h, 180);
-//       expect(color1.s, 0.5);
-//       expect(color1.v, 0.7);
-//       expect(color1.alpha, 1);
+void main() {
+  // Expected values from https://bottosson.github.io/posts/oklab/#table-of-example-xyz-and-oklab-pairs
+  group('xyzlab', () {
+    group('xyz-lab', () {
+      test('1', () {
+        final xyz = XYZ(0.950, 1.000, 1.089);
+        final lab = xyzToLab(xyz);
+        expect(lab.L, closeTo(1.0, 0.001));
+        expect(lab.a, closeTo(0.0, 0.001));
+        expect(lab.b, closeTo(0.0, 0.001));
+      });
 
-//       const color2 = OkHsv(h: 400, s: 1.2, v: 1.5, alpha: 1.2);
-//       expect(color2.h, 40); // 400 % 360
-//       expect(color2.s, 1); // Clamped to 1
-//       expect(color2.v, 1); // Clamped to 1
-//       expect(color2.alpha, 1); // Clamped to 1
-//     });
+      test('2', () {
+        final xyz = XYZ(1, 0, 0);
+        final lab = xyzToLab(xyz);
+        expect(lab.L, closeTo(0.45, 0.01));
+        expect(lab.a, closeTo(1.236, 0.001));
+        expect(lab.b, closeTo(-0.019, 0.001));
+      });
 
-//     test('toString should return a correct string representation', () {
-//       const color = OkHsv(h: 180, s: 0.5, v: 0.7, alpha: 0.8);
-//       expect(color.toString(), 'OkHsv(h: 180.0, s: 0.5, v: 0.7, alpha: 0.8)');
-//     });
-//   });
+      test('3', () {
+        final xyz = XYZ(0, 1, 0);
+        final lab = xyzToLab(xyz);
+        expect(lab.L, closeTo(0.922, 0.001));
+        expect(lab.a, closeTo(-0.671, 0.001));
+        expect(lab.b, closeTo(0.263, 0.001));
+      });
 
-//   group('Color conversions', () {
-//     test('RGB to OkLab conversion', () {
-//       const rgb = Rgb(r: 255, g: 0, b: 0);
-//       final oklab = rgb.toLrgb().toOklab();
-//       expect(oklab.l, closeTo(0.627, 0.001));
-//       expect(oklab.a, closeTo(0.229, 0.001));
-//       expect(oklab.b, closeTo(0.125, 0.001));
-//     });
+      test('4', () {
+        final xyz = XYZ(0, 0, 1);
+        final lab = xyzToLab(xyz);
+        expect(lab.L, closeTo(0.153, 0.001));
+        expect(lab.a, closeTo(-1.415, 0.001));
+        expect(lab.b, closeTo(-0.449, 0.001));
+      });
+    });
 
-//     test('OkLab to RGB conversion', () {
-//       const oklab = OkLab(l: 0.627, a: 0.229, b: 0.125);
-//       final rgb = oklab.toLrgb().toRgb();
-//       expect(rgb.r, closeTo(255, 1));
-//       expect(rgb.g, closeTo(0, 1));
-//       expect(rgb.b, closeTo(0, 1));
-//     });
-//   });
+    // Expected values from https://bottosson.github.io/posts/oklab/#table-of-example-xyz-and-oklab-pairs
+    group('lab-xyz', () {
+      test('1', () {
+        final lab = Lab(1.0, 0.0, 0.0);
+        final xyz = labToXyz(lab);
+        expect(xyz.X, closeTo(0.950, 0.001));
+        expect(xyz.Y, closeTo(1.000, 0.001));
+        expect(xyz.Z, closeTo(1.089, 0.001));
+      });
 
-//   group('Gradient', () {
-//     test('okHsvGradientColors should return correct number of colors', () {
-//       const start = Colors.red;
-//       const end = Colors.blue;
-//       final colors = okHsvGradientColors(start, end, numberOfColors: 5);
-//       expect(colors.length, 5);
-//     });
+      test('2', () {
+        final lab = Lab(0.45, 1.236, -0.019);
+        final xyz = labToXyz(lab);
+        expect(xyz.X, closeTo(1.0, 0.01));
+        expect(xyz.Y, closeTo(0.0, 0.01));
+        expect(xyz.Z, closeTo(0.0, 0.01));
+      });
 
-//     test('okHsvGradientColors should interpolate colors correctly', () {
-//       const start = Colors.red;
-//       const end = Colors.blue;
-//       final colors = okHsvGradientColors(start, end, numberOfColors: 3);
-//       expect(colors[0], start);
-//       expect(colors[2], end);
-//       // Middle color should be different from start and end
-//       expect(colors[1], isNot(equals(start)));
-//       expect(colors[1], isNot(equals(end)));
-//     });
-//   });
-// }
+      test('3', () {
+        final lab = Lab(0.922, -0.671, 0.263);
+        final xyz = labToXyz(lab);
+        expect(xyz.X, closeTo(0.0, 0.01));
+        expect(xyz.Y, closeTo(1.0, 0.01));
+        expect(xyz.Z, closeTo(0.0, 0.01));
+      });
+
+      test('4', () {
+        final lab = Lab(0.153, -1.415, -0.449);
+        final xyz = labToXyz(lab);
+        expect(xyz.X, closeTo(0.0, 0.01));
+        expect(xyz.Y, closeTo(0.0, 0.01));
+        expect(xyz.Z, closeTo(1.0, 0.01));
+      });
+    });
+
+    group('roundtrip', () {
+      test('1', () {
+        final xyz = XYZ(0.950, 1.000, 1.089);
+        final lab = xyzToLab(xyz);
+        final xyz2 = labToXyz(lab);
+        expect(xyz2.X, closeTo(xyz.X, 0.001));
+        expect(xyz2.Y, closeTo(xyz.Y, 0.001));
+        expect(xyz2.Z, closeTo(xyz.Z, 0.001));
+      });
+
+      test('2', () {
+        final xyz = XYZ(1, 0, 0);
+        final lab = xyzToLab(xyz);
+        final xyz2 = labToXyz(lab);
+        expect(xyz2.X, closeTo(xyz.X, 0.001));
+        expect(xyz2.Y, closeTo(xyz.Y, 0.001));
+        expect(xyz2.Z, closeTo(xyz.Z, 0.001));
+      });
+
+      test('3', () {
+        final xyz = XYZ(0, 1, 0);
+        final lab = xyzToLab(xyz);
+        final xyz2 = labToXyz(lab);
+        expect(xyz2.X, closeTo(xyz.X, 0.001));
+        expect(xyz2.Y, closeTo(xyz.Y, 0.001));
+        expect(xyz2.Z, closeTo(xyz.Z, 0.001));
+      });
+
+      test('4', () {
+        final xyz = XYZ(0, 0, 1);
+        final lab = xyzToLab(xyz);
+        final xyz2 = labToXyz(lab);
+        expect(xyz2.X, closeTo(xyz.X, 0.001));
+        expect(xyz2.Y, closeTo(xyz.Y, 0.001));
+        expect(xyz2.Z, closeTo(xyz.Z, 0.001));
+      });
+    });
+  });
+}

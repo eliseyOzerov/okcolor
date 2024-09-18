@@ -13,7 +13,7 @@ and the Flutter guide for
 
 # OkColor
 
-A Dart package for working with colors in the Oklab color space, providing utilities for color manipulation, conversion, and analysis.
+A Flutter package for working with colors in the Oklab color space, providing utilities for color manipulation, conversion, and analysis.
 
 ## Features
 
@@ -28,7 +28,7 @@ Add `okcolor` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  okcolor: ^0.1.0
+  okcolor: ^1.0.0
 ```
 
 Then run `dart pub get` or `flutter pub get`.
@@ -42,8 +42,20 @@ to `/example` folder.
 const like = 'sample';
 ```
 
-## Additional information
+## Acknowledgements
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+This package is a Dart/Flutter implementation of the Oklab color space, based on the work of Björn Ottosson. For more information about the Oklab color space and its properties, please visit [https://bottosson.github.io/posts/oklab/](https://bottosson.github.io/posts/oklab/).
+
+## Contributing
+
+Contributions to improve the package are welcome. Please feel free to submit issues or pull requests on the GitHub repository.
+
+## Issues
+
+If you encounter any problems or have suggestions for improvements, please file an issue on the GitHub issue tracker.
+
+## Support
+
+For questions or discussions about using the package, you can open a discussion on the GitHub repository or reach out to the package maintainers.
+
+We strive to respond to issues and pull requests in a timely manner, typically within a few days.
