@@ -35,11 +35,52 @@ Then run `dart pub get` or `flutter pub get`.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Here are some examples demonstrating how to use the OkColor package:
+
+### Converting between color spaces
 
 ```dart
-const like = 'sample';
+import 'package:flutter/material.dart';
+import 'package:okcolor/okcolor.dart';
+
+void main() {
+  // Convert from Color to OkLab
+  Color color = Colors.blue;
+  OkLab oklab = OkLab.fromColor(color);
+  // Convert from OkLab back to Color
+  Color convertedColor = oklab.toColor();
+  // Convert from Color to OkHsv
+  OkHsv okhsv = OkHsv.fromColor(color);
+}
+```
+
+### Interpolating between colors
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:okcolor/okcolor.dart';
+
+void main() {
+  Color startColor = Colors.red;
+  Color endColor = Colors.blue;
+  double fraction = 0.5;
+  
+  // Interpolate using OkLab color space
+  Color interpolatedColor = interpolate(
+    startColor, 
+    endColor, 
+    fraction,
+    method: InterpolationMethod.oklab
+  );
+
+  // Interpolate using OkHSV color space
+  Color interpolatedColorHSV = interpolate(
+    startColor, 
+    endColor, 
+    fraction,
+    method: InterpolationMethod.okhsv
+  );
+}
 ```
 
 ## Acknowledgements
