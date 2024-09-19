@@ -97,6 +97,11 @@ OkHSV srgbToOkhsv(RGB rgb) {
   double v = L / lV;
   double s = (s0 + tMax) * cV / ((tMax * s0) + tMax * k * cV);
 
+  if (rgb.r == rgb.g && rgb.g == rgb.b) {
+    h = 0;
+    s = 0;
+  }
+
   return OkHSV(h, s, v);
 }
 

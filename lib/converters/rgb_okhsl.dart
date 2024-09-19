@@ -66,10 +66,6 @@ OkHSL rgbToOkHsl(RGB rgb) {
 
   double L = lab.L;
   double h = 0.5 + 0.5 * math.atan2(-lab.b, -lab.a) / math.pi;
-  if (rgb.r == 0.5 && rgb.g == 0.5 && rgb.b == 0.5) {
-    print("DART_rgbToOkHsl: L = ${lab.L.toStringAsFixed(20)}, a = ${lab.a.toStringAsFixed(20)}, b = ${lab.b.toStringAsFixed(20)}");
-    print("DART_rgbToOkHsl: h = ${h.toStringAsFixed(20)}");
-  }
 
   Cs cs = getCs(L, a_, b_);
   double c0 = cs.C_0;
@@ -97,6 +93,11 @@ OkHSL rgbToOkHsl(RGB rgb) {
   }
 
   double l = toe(L);
+
+  if (rgb.r == rgb.g && rgb.g == rgb.b) {
+    h = 0;
+    s = 0;
+  }
 
   return OkHSL(h, s, l);
 }
