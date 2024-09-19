@@ -33,7 +33,7 @@ RGB test_colors[] = {
 // ------------------------ Linear sRGB to sRGB test cases ------------------------ //
 
 void test_linear_srgb_to_srgb(RGB color) {
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     
     RGB linear = {
 			srgb_transfer_function_inv(color.r),
@@ -72,7 +72,7 @@ void linear_srgb_to_srgb_test_cases() {
 // ------------------------ OkLab sRGB test cases ------------------------ //
 
 void test_oklab_to_srgb(RGB rgb_in) {
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     
     RGB linear = {
         srgb_transfer_function_inv(rgb_in.r),
@@ -116,7 +116,7 @@ void oklab_srgb_test_cases() {
 
 void test_compute_max_saturation(float a, float b) {
     float result = compute_max_saturation(a, b);
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     std::cout << "compute_max_saturation(" << a << ", " << b << ") = " << result;
     
     // Check if the input is normalized
@@ -155,7 +155,7 @@ void compute_max_saturation_test_cases() {
 
 void test_find_cusp(float a, float b) {
     LC result = find_cusp(a, b);
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     std::cout << "find_cusp(" << a << ", " << b << ") = "
               << "L_cusp: " << result.L << ", C_cusp: " << result.C;
 
@@ -195,7 +195,7 @@ void find_cusp_test_cases() {
 
 void test_find_gamut_intersection(float a, float b, float L1, float C1, float L0, LC cusp) {
     float result = find_gamut_intersection(a, b, L1, C1, L0, cusp);
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     std::cout << "find_gamut_intersection(" 
               << a << ", " << b << ", " 
               << L1 << ", " << C1 << ", " 
@@ -227,31 +227,31 @@ void find_gamut_intersection_test_cases() {
 
 void test_toe(float x) {
     float result = toe(x);
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     std::cout << "toe(" << x << ") = " << result << std::endl;
 }
 
 void test_toe_inv(float x) {
     float result = toe_inv(x);
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     std::cout << "toe_inv(" << x << ") = " << result << std::endl;
 }
 
 void test_to_ST(LC cusp) {
     ST result = to_ST(cusp);
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     std::cout << "to_ST({" << cusp.L << ", " << cusp.C << "}) = {" << result.S << ", " << result.T << "}" << std::endl;
 }
 
 void test_get_ST_mid(float a_, float b_) {
     ST result = get_ST_mid(a_, b_);
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     std::cout << "get_ST_mid(" << a_ << ", " << b_ << ") = {" << result.S << ", " << result.T << "}" << std::endl;
 }
 
 void test_get_Cs(float L, float a_, float b_) {
     Cs result = get_Cs(L, a_, b_);
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     std::cout << "get_Cs(" << L << ", " << a_ << ", " << b_ << ") = {" 
               << result.C_0 << ", " << result.C_mid << ", " << result.C_max << "}" << std::endl;
 }
@@ -307,7 +307,7 @@ void test_okhsl_srgb(RGB original) {
                               std::abs(original.g - converted.g),
                               std::abs(original.b - converted.b)});
   
-  std::cout << std::fixed << std::setprecision(6);
+  std::cout << std::fixed << std::setprecision(9);
   std::cout << "RGB (" << original.r << ", " << original.g << ", " << original.b << ") -> "
             << "HSL (" << hsl.h << ", " << hsl.s << ", " << hsl.l << ") -> "
             << "RGB (" << converted.r << ", " << converted.g << ", " << converted.b << ")";
@@ -332,7 +332,7 @@ void okhsl_srgb_test_cases() {
 // ------------------------ OkHSV sRGB test cases ------------------------ //
 
 void test_okhsv_srgb_conversion(RGB rgb_in) {
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(9);
     
     HSV hsv = srgb_to_okhsv(rgb_in);
     RGB rgb_out = okhsv_to_srgb(hsv);
@@ -363,14 +363,14 @@ void okhsv_srgb_test_cases() {
 // ------------------------ Main ------------------------ //
 
 int main() {
-    linear_srgb_to_srgb_test_cases();
-    compute_max_saturation_test_cases();
-    find_cusp_test_cases();
-    find_gamut_intersection_test_cases();
-    common_test_cases();
-    oklab_srgb_test_cases();
+    // linear_srgb_to_srgb_test_cases();
+    // compute_max_saturation_test_cases();
+    // find_cusp_test_cases();
+    // find_gamut_intersection_test_cases();
+    // common_test_cases();
+    // oklab_srgb_test_cases();
 		okhsl_srgb_test_cases();
-    okhsv_srgb_test_cases();
+    // okhsv_srgb_test_cases();
 		return 0;
 }
 

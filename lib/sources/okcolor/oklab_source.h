@@ -480,6 +480,12 @@ Cs get_Cs(float L, float a_, float b_)
 	return { C_0, C_mid, C_max };
 }
 
+void print_float_bits(float f) {
+    uint32_t bits;
+    memcpy(&bits, &f, sizeof(float));
+    printf("0x%08x\n", bits);
+}
+
 RGB okhsl_to_srgb(HSL hsl)
 {
 	float h = hsl.h;
@@ -540,18 +546,25 @@ RGB okhsl_to_srgb(HSL hsl)
 
 HSL srgb_to_okhsl(RGB rgb)
 {
-	Lab lab = linear_srgb_to_oklab({
+	RGB linear_rgb = {
 		srgb_transfer_function_inv(rgb.r),
 		srgb_transfer_function_inv(rgb.g),
 		srgb_transfer_function_inv(rgb.b)
-		});
+	};
+	printf("CPP_srgb_to_okhsl: r = %.15f, g = %.15f, b = %.15f\n", linear_rgb.r, linear_rgb.g, linear_rgb.b);
+	
+	Lab lab = linear_srgb_to_oklab(linear_rgb);
+	
 
 	float C = sqrtf(lab.a * lab.a + lab.b * lab.b);
 	float a_ = lab.a / C;
 	float b_ = lab.b / C;
-
+	
 	float L = lab.L;
 	float h = 0.5f + 0.5f * atan2f(-lab.b, -lab.a) / pi;
+
+	printf("CPP_srgb_to_okhsl: L = %.15f, a = %.15f, b = %.15f\n", lab.L, lab.a, lab.b);
+	printf("CPP_srgb_to_okhsl: h = %.15f\n", h);
 
 	Cs cs = get_Cs(L, a_, b_);
 	float C_0 = cs.C_0;
@@ -636,11 +649,12 @@ RGB okhsv_to_srgb(HSV hsv)
 
 HSV srgb_to_okhsv(RGB rgb)
 {
-	Lab lab = linear_srgb_to_oklab({
+	RGB linear_rgb = {
 		srgb_transfer_function_inv(rgb.r),
 		srgb_transfer_function_inv(rgb.g),
 		srgb_transfer_function_inv(rgb.b)
-		});
+		};
+	Lab lab = linear_srgb_to_oklab(linear_rgb);
 
 	float C = sqrtf(lab.a * lab.a + lab.b * lab.b);
 	float a_ = lab.a / C;
