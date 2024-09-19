@@ -22,7 +22,7 @@ RGB gamutClipPreserveChroma(RGB rgb) {
     return rgb;
   }
 
-  Lab lab = linearRgbToOkLab(rgb);
+  OkLab lab = linearRgbToOkLab(rgb);
 
   double L = lab.L;
   double eps = 0.00001;
@@ -36,7 +36,7 @@ RGB gamutClipPreserveChroma(RGB rgb) {
   double lClipped = L0 * (1 - t) + t * L;
   double cClipped = t * C;
 
-  return okLabToLinearRgb(Lab(lClipped, cClipped * a_, cClipped * b_));
+  return okLabToLinearRgb(OkLab(lClipped, cClipped * a_, cClipped * b_));
 }
 
 RGB gamutClipProjectTo05(RGB rgb) {
@@ -44,7 +44,7 @@ RGB gamutClipProjectTo05(RGB rgb) {
     return rgb;
   }
 
-  Lab lab = linearRgbToOkLab(rgb);
+  OkLab lab = linearRgbToOkLab(rgb);
 
   double L = lab.L;
   double eps = 0.00001;
@@ -58,7 +58,7 @@ RGB gamutClipProjectTo05(RGB rgb) {
   double lClipped = L0 * (1 - t) + t * L;
   double cClipped = t * C;
 
-  return okLabToLinearRgb(Lab(lClipped, cClipped * a_, cClipped * b_));
+  return okLabToLinearRgb(OkLab(lClipped, cClipped * a_, cClipped * b_));
 }
 
 RGB gamutClipProjectToLCusp(RGB rgb) {
@@ -66,7 +66,7 @@ RGB gamutClipProjectToLCusp(RGB rgb) {
     return rgb;
   }
 
-  Lab lab = linearRgbToOkLab(rgb);
+  OkLab lab = linearRgbToOkLab(rgb);
 
   double L = lab.L;
   double eps = 0.00001;
@@ -84,7 +84,7 @@ RGB gamutClipProjectToLCusp(RGB rgb) {
   double lClipped = L0 * (1 - t) + t * L;
   double cClipped = t * C;
 
-  return okLabToLinearRgb(Lab(lClipped, cClipped * a_, cClipped * b_));
+  return okLabToLinearRgb(OkLab(lClipped, cClipped * a_, cClipped * b_));
 }
 
 RGB gamutClipAdaptiveL005(RGB rgb, {double alpha = 0.05}) {
@@ -92,7 +92,7 @@ RGB gamutClipAdaptiveL005(RGB rgb, {double alpha = 0.05}) {
     return rgb;
   }
 
-  Lab lab = linearRgbToOkLab(rgb);
+  OkLab lab = linearRgbToOkLab(rgb);
 
   double L = lab.L;
   double eps = 0.00001;
@@ -108,7 +108,7 @@ RGB gamutClipAdaptiveL005(RGB rgb, {double alpha = 0.05}) {
   double lClipped = L0 * (1 - t) + t * L;
   double cClipped = t * C;
 
-  return okLabToLinearRgb(Lab(lClipped, cClipped * a_, cClipped * b_));
+  return okLabToLinearRgb(OkLab(lClipped, cClipped * a_, cClipped * b_));
 }
 
 RGB gamutClipAdaptiveL0LCusp(RGB rgb, {double alpha = 0.05}) {
@@ -116,7 +116,7 @@ RGB gamutClipAdaptiveL0LCusp(RGB rgb, {double alpha = 0.05}) {
     return rgb;
   }
 
-  Lab lab = linearRgbToOkLab(rgb);
+  OkLab lab = linearRgbToOkLab(rgb);
 
   double L = lab.L;
   double eps = 0.00001;
@@ -137,5 +137,5 @@ RGB gamutClipAdaptiveL0LCusp(RGB rgb, {double alpha = 0.05}) {
   double lClipped = L0 * (1 - t) + t * L;
   double cClipped = t * C;
 
-  return okLabToLinearRgb(Lab(lClipped, cClipped * a_, cClipped * b_));
+  return okLabToLinearRgb(OkLab(lClipped, cClipped * a_, cClipped * b_));
 }

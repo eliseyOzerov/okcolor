@@ -1,14 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:okcolor/converters/rgb_oklab.dart';
-import 'package:okcolor/converters/xyz_rgb.dart';
 import 'package:okcolor/models/okcolor_base.dart';
 import 'package:okcolor/utils/common.dart';
 import 'package:okcolor/utils/rgb_gamut_intersection.dart';
 
 // Source: https://bottosson.github.io/posts/colorpicker/#hsv-2
 
-RGB okhsvToSrgb(HSV hsv) {
+RGB okhsvToSrgb(OkHSV hsv) {
   double h = hsv.h;
   double s = hsv.s;
   double v = hsv.v;
@@ -45,22 +44,21 @@ RGB okhsvToSrgb(HSV hsv) {
   C = C * lNew / math.max(L, 1e-10);
   L = lNew;
 
-  RGB rgbScale = okLabToLinearRgb(Lab(lVt, a_ * cVt, b_ * cVt));
+  RGB rgbScale = okLabToLinearRgb(OkLab(lVt, a_ * cVt, b_ * cVt));
   double scaleL = math.pow(1 / math.max(math.max(rgbScale.r, rgbScale.g), math.max(rgbScale.b, 1e-10)), 1 / 3).toDouble();
 
   L = L * scaleL;
   C = C * scaleL;
 
-  RGB rgb = okLabToLinearRgb(Lab(L, C * a_, C * b_));
-  return linearRgbToRgb(rgb);
+  return okLabToRgb(OkLab(L, C * a_, C * b_));
 }
 
-HSV srgbToOkhsv(RGB rgb) {
+OkHSV srgbToOkhsv(RGB rgb) {
   if (rgb.r == 0 && rgb.g == 0 && rgb.b == 0) {
-    return HSV(0, 0, 0);
+    return OkHSV(0, 0, 0);
   }
 
-  Lab lab = linearRgbToOkLab(rgbToLinearRgb(rgb));
+  OkLab lab = rgbToOkLab(rgb);
 
   double C = math.sqrt(lab.a * lab.a + lab.b * lab.b);
   double a_ = lab.a / C;
@@ -86,7 +84,7 @@ HSV srgbToOkhsv(RGB rgb) {
   double cVt = cV * lVt / lV;
 
   // we can then use these to invert the step that compensates for the toe and the curved top part of the triangle:
-  RGB rgbScale = okLabToLinearRgb(Lab(lVt, a_ * cVt, b_ * cVt));
+  RGB rgbScale = okLabToLinearRgb(OkLab(lVt, a_ * cVt, b_ * cVt));
   double scaleL = math.pow(1 / math.max(math.max(rgbScale.r, rgbScale.g), math.max(rgbScale.b, 1e-10)), 1 / 3).toDouble();
 
   L = L / scaleL;
@@ -99,7 +97,7 @@ HSV srgbToOkhsv(RGB rgb) {
   double v = L / lV;
   double s = (s0 + tMax) * cV / ((tMax * s0) + tMax * k * cV);
 
-  return HSV(h, s, v);
+  return OkHSV(h, s, v);
 }
 
 extension NonZero on double {

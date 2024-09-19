@@ -5,8 +5,8 @@ import 'package:okcolor/models/okhsv.dart';
 import 'package:okcolor/models/oklab.dart';
 
 extension ColorExt on Color {
-  OkLab toOkLab() {
-    return OkLab.fromColor(this);
+  OkLAB toOkLab() {
+    return OkLAB.fromColor(this);
   }
 
   OkHsv toOkHsv() {

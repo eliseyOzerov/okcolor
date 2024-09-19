@@ -35,7 +35,7 @@ class OkHsv {
 
   // ------ Constructors ------ //
 
-  factory OkHsv.fromHsv(HSV hsv) {
+  factory OkHsv.fromHsv(OkHSV hsv) {
     return OkHsv(h: hsv.h, s: hsv.s, v: hsv.v, alpha: 1);
   }
 
@@ -98,12 +98,12 @@ class OkHsv {
 
   // ------ Conversions ------ //
 
-  HSV toHsv() {
-    return HSV(h, s, v);
+  OkHSV toHsv() {
+    return OkHSV(h, s, v);
   }
 
   Color toColor() {
-    final rgb = okhsvToSrgb(HSV(h, s, v));
+    final rgb = okhsvToSrgb(OkHSV(h, s, v));
     return rgb.toColor();
   }
 

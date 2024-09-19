@@ -17,9 +17,9 @@ enum InterpolationMethod { oklab, okhsv, oklch, hsv, rgb }
 
 Color interpolate(Color start, Color end, double fraction, {bool shortestPath = true, InterpolationMethod method = InterpolationMethod.oklab}) {
   if (method == InterpolationMethod.oklab) {
-    final startLab = OkLab.fromColor(start);
-    final endLab = OkLab.fromColor(end);
-    return OkLab.lerp(startLab, endLab, fraction).toColor();
+    final startLab = OkLAB.fromColor(start);
+    final endLab = OkLAB.fromColor(end);
+    return OkLAB.lerp(startLab, endLab, fraction).toColor();
   } else if (method == InterpolationMethod.okhsv) {
     final startHsv = OkHsv.fromColor(start);
     final endHsv = OkHsv.fromColor(end);

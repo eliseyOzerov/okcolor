@@ -11,11 +11,11 @@ import 'package:okcolor/converters/xyz_rgb.dart';
 ///   Lab lab = linearSrgbToOklab(RGB(0.5, 0.5, 0.5));
 ///   // lab components are used directly in calculations:
 ///   double C = math.sqrt(lab.a * lab.a + lab.b * lab.b);
-class Lab {
+class OkLab {
   double L;
   double a;
   double b;
-  Lab(this.L, this.a, this.b);
+  OkLab(this.L, this.a, this.b);
 
   RGB toRgb() {
     final rgb = okLabToLinearRgb(this);
@@ -51,7 +51,7 @@ class RGB {
   double b;
   RGB(this.r, this.g, this.b);
 
-  Lab toLab() {
+  OkLab toLab() {
     final linear = rgbToLinearRgb(this);
     return linearRgbToOkLab(linear);
   }
@@ -71,11 +71,11 @@ class RGB {
 ///   // Hue is used in trigonometric functions:
 ///   double a_ = math.cos(2 * math.pi * hsl.h);
 ///   double b_ = math.sin(2 * math.pi * hsl.h);
-class HSL {
+class OkHSL {
   double h;
   double s;
   double l;
-  HSL(this.h, this.s, this.l);
+  OkHSL(this.h, this.s, this.l);
 
   @override
   String toString() {
@@ -92,11 +92,11 @@ class HSL {
 ///   // Saturation and Value are used in calculations:
 ///   double L_v = 1 - hsv.s * S_0 / (S_0 + T_max - T_max * k * hsv.s);
 ///   double L = hsv.v * L_v;
-class HSV {
+class OkHSV {
   double h;
   double s;
   double v;
-  HSV(this.h, this.s, this.v);
+  OkHSV(this.h, this.s, this.v);
 
   @override
   String toString() {
@@ -127,8 +127,8 @@ class LCH {
   double h;
   LCH(this.L, this.C, this.h);
 
-  Lab toLab() {
-    return Lab(L, C * math.cos(h), C * math.sin(h));
+  OkLab toLab() {
+    return OkLab(L, C * math.cos(h), C * math.sin(h));
   }
 }
 

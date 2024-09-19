@@ -1,13 +1,12 @@
 import 'dart:math' as math;
 
 import 'package:okcolor/converters/rgb_oklab.dart';
-import 'package:okcolor/converters/xyz_rgb.dart';
 import 'package:okcolor/models/okcolor_base.dart';
 import 'package:okcolor/utils/common.dart';
 
 // Source: https://bottosson.github.io/posts/colorpicker/#hsl-2
 
-RGB okHslToSrgb(HSL hsl) {
+RGB okHslToSrgb(OkHSL hsl) {
   double h = hsl.h;
   double s = hsl.s;
   double l = hsl.l;
@@ -49,18 +48,17 @@ RGB okHslToSrgb(HSL hsl) {
     C = k_0 + t * k_1 / (1 - k_2 * t);
   }
 
-  RGB rgb = okLabToLinearRgb(Lab(L, C * a_, C * b_));
-  return linearRgbToRgb(rgb);
+  return okLabToRgb(OkLab(L, C * a_, C * b_));
 }
 
 /// Non-linear RGB
-HSL rgbToOkHsl(RGB rgb) {
+OkHSL rgbToOkHsl(RGB rgb) {
   // Handle full black
   if (rgb.r <= 0 && rgb.g <= 0 && rgb.b <= 0) {
-    return HSL(0, 0, 0);
+    return OkHSL(0, 0, 0);
   }
 
-  Lab lab = linearRgbToOkLab(rgbToLinearRgb(rgb));
+  OkLab lab = rgbToOkLab(rgb);
 
   double C = math.sqrt(lab.a * lab.a + lab.b * lab.b);
   double a_ = lab.a / C;
@@ -96,5 +94,5 @@ HSL rgbToOkHsl(RGB rgb) {
 
   double l = toe(L);
 
-  return HSL(h, s, l);
+  return OkHSL(h, s, l);
 }

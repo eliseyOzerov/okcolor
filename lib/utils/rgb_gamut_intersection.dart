@@ -92,7 +92,7 @@ LC findCusp(double a, double b) {
   double sCusp = computeMaxSaturation(a, b);
 
   // Convert to linear sRGB to find the first point where at least one of r,g or b >= 1:
-  RGB rgbAtMax = okLabToLinearRgb(Lab(1, sCusp * a, sCusp * b));
+  RGB rgbAtMax = okLabToLinearRgb(OkLab(1, sCusp * a, sCusp * b));
   double lCusp = math.pow(1 / math.max(math.max(rgbAtMax.r, rgbAtMax.g), rgbAtMax.b), 1 / 3).toDouble();
   double cCusp = lCusp * sCusp;
 

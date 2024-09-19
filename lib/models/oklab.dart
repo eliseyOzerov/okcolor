@@ -5,17 +5,17 @@ import 'package:okcolor/converters/xyz_rgb.dart';
 import 'package:okcolor/models/flutter_color_conversions.dart';
 import 'package:okcolor/models/okcolor_base.dart';
 
-class OkLab {
+class OkLAB {
   final double l;
   final double a;
   final double b;
 
-  OkLab(this.l, this.a, this.b);
+  OkLAB(this.l, this.a, this.b);
 
   // ------ Constructors ------ //
 
-  factory OkLab.fromLab(Lab lab) {
-    return OkLab(lab.L, lab.a, lab.b);
+  factory OkLAB.fromLab(OkLab lab) {
+    return OkLAB(lab.L, lab.a, lab.b);
   }
 
   // factory OkLab.fromColor(Color color) {
@@ -25,17 +25,17 @@ class OkLab {
   //   return OkLab.fromLab(lab);
   // }
 
-  factory OkLab.fromColor(Color color) {
+  factory OkLAB.fromColor(Color color) {
     final rgb = color.toRgb();
     final linear = rgbToLinearRgb(rgb);
     final lab = linearRgbToOkLab(linear);
-    return OkLab.fromLab(lab);
+    return OkLAB.fromLab(lab);
   }
 
   // ------ Conversions ------ //
 
-  Lab toLab() {
-    return Lab(l, a, b);
+  OkLab toLab() {
+    return OkLab(l, a, b);
   }
 
   Color toColor() {
@@ -53,8 +53,8 @@ class OkLab {
 
   // ------ Interpolation ------ //
 
-  static OkLab lerp(OkLab start, OkLab end, double fraction) {
-    return OkLab(
+  static OkLAB lerp(OkLAB start, OkLAB end, double fraction) {
+    return OkLAB(
       lerpDouble(start.l, end.l, fraction) ?? 0,
       lerpDouble(start.a, end.a, fraction) ?? 0,
       lerpDouble(start.b, end.b, fraction) ?? 0,

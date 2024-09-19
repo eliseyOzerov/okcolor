@@ -14,7 +14,7 @@ final Matrix3 m2 = Matrix3(0.2104542553, 1.9779984951, 0.0259040371, 0.793617785
 final Matrix3 m1Inverse = m1.clone()..invert();
 final Matrix3 m2Inverse = m2.clone()..invert();
 
-Lab xyzToLab(XYZ xyz) {
+OkLab xyzToLab(XYZ xyz) {
   final inputVector = Vector3(xyz.X, xyz.Y, xyz.Z);
   final approximateConeResponse = m1.transformed(inputVector);
   final cubeRoot = Vector3(
@@ -23,10 +23,10 @@ Lab xyzToLab(XYZ xyz) {
     math.pow(approximateConeResponse.z.abs(), 1 / 3) * (approximateConeResponse.z < 0 ? -1 : 1),
   );
   final linearLab = m2.transformed(cubeRoot);
-  return Lab(linearLab.x, linearLab.y, linearLab.z);
+  return OkLab(linearLab.x, linearLab.y, linearLab.z);
 }
 
-XYZ labToXyz(Lab lab) {
+XYZ labToXyz(OkLab lab) {
   final inputVector = Vector3(lab.L, lab.a, lab.b);
   final approximateConeResponse = m2Inverse.transformed(inputVector);
   final cubeRoot = Vector3(
