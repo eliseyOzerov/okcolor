@@ -56,7 +56,6 @@ RGB okhsvToSrgb(HSV hsv) {
 }
 
 HSV srgbToOkhsv(RGB rgb) {
-  // Handle black color separately
   if (rgb.r == 0 && rgb.g == 0 && rgb.b == 0) {
     return HSV(0, 0, 0);
   }
@@ -64,42 +63,41 @@ HSV srgbToOkhsv(RGB rgb) {
   Lab lab = linearRgbToOkLab(rgbToLinearRgb(rgb));
 
   double C = math.sqrt(lab.a * lab.a + lab.b * lab.b);
-  double a_ = lab.a / C.nonZero;
-  double b_ = lab.b / C.nonZero;
+  double a_ = lab.a / C;
+  double b_ = lab.b / C;
 
   double L = lab.L;
 
-  /// 1 - L is 0 for completely white color, return 0 for hue
-  double h = (1 - L) < 1e-6 ? 0 : 0.5 + 0.5 * math.atan2(-lab.b, -lab.a) / math.pi;
+  double h = 0.5 + 0.5 * math.atan2(-lab.b, -lab.a) / math.pi;
 
   LC cusp = findCusp(a_, b_);
   ST stMax = toST(cusp);
   double sMax = stMax.S;
   double tMax = stMax.T;
   double s0 = 0.5;
-  double k = 1 - s0 / sMax.nonZero;
+  double k = 1 - s0 / sMax;
 
   // first we find L_v, C_v, L_vt and C_vt
-  double t = tMax / (C + L * tMax).nonZero;
+  double t = tMax / (C + L * tMax);
   double lV = t * L;
   double cV = t * C;
 
   double lVt = toeInv(lV);
-  double cVt = cV * lVt / lV.nonZero;
+  double cVt = cV * lVt / lV;
 
   // we can then use these to invert the step that compensates for the toe and the curved top part of the triangle:
   RGB rgbScale = okLabToLinearRgb(Lab(lVt, a_ * cVt, b_ * cVt));
-  double scaleL = math.pow(1 / math.max(math.max(rgbScale.r, rgbScale.g), math.max(rgbScale.b, 1e-10)), 1 / 3).toDouble().nonZero;
+  double scaleL = math.pow(1 / math.max(math.max(rgbScale.r, rgbScale.g), math.max(rgbScale.b, 1e-10)), 1 / 3).toDouble();
 
   L = L / scaleL;
   C = C / scaleL;
 
-  C = C * toe(L) / L.nonZero;
+  C = C * toe(L) / L;
   L = toe(L);
 
   // we can now compute v and s:
-  double v = lV > 0 ? L / lV : 0;
-  double s = cV > 0 ? (s0 + tMax) * cV / ((tMax * s0) + tMax * k * cV) : 0;
+  double v = L / lV;
+  double s = (s0 + tMax) * cV / ((tMax * s0) + tMax * k * cV);
 
   return HSV(h, s, v);
 }

@@ -55,6 +55,11 @@ class RGB {
     final linear = rgbToLinearRgb(this);
     return linearRgbToOkLab(linear);
   }
+
+  @override
+  String toString() {
+    return 'RGB($r, $g, $b)';
+  }
 }
 
 /// Represents a color in the HSL (Hue, Saturation, Lightness) color space.
@@ -71,6 +76,11 @@ class HSL {
   double s;
   double l;
   HSL(this.h, this.s, this.l);
+
+  @override
+  String toString() {
+    return 'HSL($h, $s, $l)';
+  }
 }
 
 /// Represents a color in the HSV (Hue, Saturation, Value) color space.
@@ -87,6 +97,11 @@ class HSV {
   double s;
   double v;
   HSV(this.h, this.s, this.v);
+
+  @override
+  String toString() {
+    return 'HSV($h, $s, $v)';
+  }
 }
 
 /// Represents Lightness and Chroma.

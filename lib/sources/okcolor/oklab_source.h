@@ -51,11 +51,13 @@ float sgn(float x)
 	return (float)(0.f < x) - (float)(x < 0.f);
 }
 
+// linearRgbToRgb
 float srgb_transfer_function(float a)
 {
 	return .0031308f >= a ? 12.92f * a : 1.055f * powf(a, .4166666666666667f) - .055f;
 }
 
+// rgbToLinearRgb
 float srgb_transfer_function_inv(float a)
 {
 	return .04045f < a ? powf((a + .055f) / 1.055f, 2.4f) : a / 12.92f;

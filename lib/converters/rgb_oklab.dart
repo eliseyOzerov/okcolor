@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:okcolor/converters/xyz_rgb.dart';
 import 'package:okcolor/models/okcolor_base.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -14,6 +15,16 @@ final Matrix3 m2 = Matrix3(0.2104542553, 1.9779984951, 0.0259040371, 0.793617785
 final Matrix3 m1Inverse = m1.clone()..invert();
 final Matrix3 m2Inverse = m2.clone()..invert();
 
+Lab rgbToOkLab(RGB rgb) {
+  final linear = rgbToLinearRgb(rgb);
+  return linearRgbToOkLab(linear);
+}
+
+RGB okLabToRgb(Lab lab) {
+  final linear = okLabToLinearRgb(lab);
+  return linearRgbToRgb(linear);
+}
+
 Lab linearRgbToOkLab(RGB rgb) {
   // Convert RGB to Vector3
   final rgbVector = Vector3(rgb.r, rgb.g, rgb.b);
@@ -23,9 +34,9 @@ Lab linearRgbToOkLab(RGB rgb) {
 
   // Apply cube root
   final lmsCubeRoot = Vector3(
-    math.pow(lms.x.abs(), 1 / 3) * (lms.x < 0 ? -1 : 1),
-    math.pow(lms.y.abs(), 1 / 3) * (lms.y < 0 ? -1 : 1),
-    math.pow(lms.z.abs(), 1 / 3) * (lms.z < 0 ? -1 : 1),
+    math.pow(lms.x.abs(), 1 / 3).toDouble(),
+    math.pow(lms.y.abs(), 1 / 3).toDouble(),
+    math.pow(lms.z.abs(), 1 / 3).toDouble(),
   );
 
   // Second matrix multiplication
