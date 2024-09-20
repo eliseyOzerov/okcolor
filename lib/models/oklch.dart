@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:okcolor/converters/lab_lch.dart';
 import 'package:okcolor/converters/rgb_oklab.dart';
-import 'package:okcolor/converters/xyz_rgb.dart';
 import 'package:okcolor/models/flutter_color_conversions.dart';
 import 'package:okcolor/models/okcolor_base.dart';
 
@@ -22,9 +21,8 @@ class OkLch {
 
   factory OkLch.fromColor(Color color) {
     final rgb = color.toRgb();
-    final linear = rgbToLinearRgb(rgb);
-    final lab = linearRgbToOkLab(linear);
-    final lch = labToLch(lab);
+    final oklab = rgbToOkLab(rgb);
+    final lch = labToLch(oklab);
     return OkLch.fromLch(lch);
   }
 
@@ -37,8 +35,7 @@ class OkLch {
   Color toColor() {
     final lch = toLch();
     final lab = lchToLab(lch);
-    final linear = okLabToLinearRgb(lab);
-    final rgb = linearRgbToRgb(linear);
+    final rgb = okLabToRgb(lab);
     return rgb.toColor();
   }
 

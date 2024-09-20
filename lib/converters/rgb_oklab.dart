@@ -17,12 +17,11 @@ final Matrix3 m2Inverse = m2.clone()..invert();
 
 OkLab rgbToOkLab(RGB rgb) {
   final linear = rgbToLinearRgb(rgb);
-  print("rgbToOkLab linear: ${linear.r.toStringAsFixed(20)}, ${linear.g.toStringAsFixed(20)}, ${linear.b.toStringAsFixed(20)}");
-  return linearRgbToOkLabManual(linear);
+  return linearRgbToOkLab(linear);
 }
 
 RGB okLabToRgb(OkLab lab) {
-  final linear = okLabToLinearRgbManual(lab);
+  final linear = okLabToLinearRgb(lab);
   return linearRgbToRgb(linear);
 }
 
