@@ -17,7 +17,11 @@ class OkHsl {
   double h;
   double s;
   double l;
-  OkHsl(this.h, this.s, this.l);
+
+  OkHsl(double h, double s, double l)
+      : h = h.clamp(0, 1),
+        s = s.clamp(0, 1),
+        l = l.clamp(0, 1);
 
   @override
   String toString() {

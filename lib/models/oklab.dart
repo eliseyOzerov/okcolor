@@ -25,7 +25,10 @@ class OkLab {
   final double a;
   final double b;
 
-  OkLab(this.L, this.a, this.b);
+  OkLab(double L, double a, double b)
+      : L = L.clamp(0, 1),
+        a = a.clamp(-0.5, 0.5),
+        b = b.clamp(-0.5, 0.5);
 
   // ------ Constructors ------ //
 

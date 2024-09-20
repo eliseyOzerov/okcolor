@@ -34,7 +34,11 @@ class OkHsv {
   final double v;
   final double alpha;
 
-  const OkHsv(this.h, this.s, this.v, {this.alpha = 1});
+  OkHsv(double h, double s, double v, {double alpha = 1})
+      : h = h.clamp(0, 1),
+        s = s.clamp(0, 1),
+        v = v.clamp(0, 1),
+        alpha = alpha.clamp(0, 1);
 
   // ------ Constructors ------ //
 

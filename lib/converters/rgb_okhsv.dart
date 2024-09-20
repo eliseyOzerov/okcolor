@@ -57,7 +57,7 @@ RGB okhsvToSrgb(OkHsv hsv) {
 
 OkHsv rgbToOkHsv(RGB rgb) {
   if (rgb.r == 0 && rgb.g == 0 && rgb.b == 0) {
-    return const OkHsv(0, 0, 0);
+    return OkHsv(0, 0, 0);
   }
 
   OkLab lab = rgbToOkLab(rgb);

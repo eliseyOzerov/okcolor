@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:okcolor/converters/lab_lch.dart';
@@ -15,7 +16,10 @@ class OkLch {
   final double c;
   final double h;
 
-  OkLch(this.l, this.c, this.h);
+  OkLch(double l, double c, double h)
+      : l = l.clamp(0, 1),
+        c = max(c, 0),
+        h = h % (2 * pi);
 
   // ------ Constructors ------ //
 
