@@ -2,7 +2,7 @@ import 'package:example/color_wheel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:okcolor/okcolor.dart';
+import 'package:okcolor/models/okcolor.dart';
 
 void main() {
   runApp(const MyApp());
@@ -152,16 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Transform.flip(
             flipY: true,
             child: HSVColorWheel(
-              gradientColors: gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.oklch),
-              // gradientColors: [
-              //   Colors.red,
-              //   Colors.orange,
-              //   Colors.yellow,
-              //   Colors.green,
-              //   Colors.blue,
-              //   Colors.indigo,
-              //   Colors.purple,
-              // ],
+              gradientColors: OkColor.gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.oklch),
             ),
           ),
         ),
@@ -223,15 +214,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(height: 8),
                 _buildControls(),
                 const SizedBox(height: 8),
-                _buildGradient('RGB', gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.rgb)),
+                _buildGradient('RGB', OkColor.gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.rgb)),
                 const SizedBox(height: 8),
-                _buildGradient('HSV', gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.hsv)),
+                _buildGradient('HSV', OkColor.gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.hsv)),
                 const SizedBox(height: 8),
-                _buildGradient('OkLab', gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.oklab)),
+                _buildGradient('OkLab', OkColor.gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.oklab)),
                 const SizedBox(height: 8),
-                _buildGradient('OkHsv', gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.okhsv)),
+                _buildGradient('OkHsv', OkColor.gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.okhsv)),
                 const SizedBox(height: 8),
-                _buildGradient('OkLch', gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.oklch)),
+                _buildGradient('OkLch', OkColor.gradient(startColor, endColor, numberOfColors: numberOfColors, method: InterpolationMethod.oklch)),
               ],
             ),
           ),

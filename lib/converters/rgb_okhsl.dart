@@ -1,12 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:okcolor/converters/rgb_oklab.dart';
-import 'package:okcolor/models/okcolor_base.dart';
+import 'package:okcolor/models/misc.dart';
+import 'package:okcolor/models/okhsl.dart';
+import 'package:okcolor/models/oklab.dart';
 import 'package:okcolor/utils/common.dart';
 
 // Source: https://bottosson.github.io/posts/colorpicker/#hsl-2
 
-RGB okHslToSrgb(OkHSL hsl) {
+RGB okHslToRgb(OkHsl hsl) {
   double h = hsl.h;
   double s = hsl.s;
   double l = hsl.l;
@@ -52,10 +54,10 @@ RGB okHslToSrgb(OkHSL hsl) {
 }
 
 /// Non-linear RGB
-OkHSL rgbToOkHsl(RGB rgb) {
+OkHsl rgbToOkHsl(RGB rgb) {
   // Handle full black
   if (rgb.r <= 0 && rgb.g <= 0 && rgb.b <= 0) {
-    return OkHSL(0, 0, 0);
+    return OkHsl(0, 0, 0);
   }
 
   OkLab lab = rgbToOkLab(rgb);
@@ -99,5 +101,5 @@ OkHSL rgbToOkHsl(RGB rgb) {
     s = 0;
   }
 
-  return OkHSL(h, s, l);
+  return OkHsl(h, s, l);
 }

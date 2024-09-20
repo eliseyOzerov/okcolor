@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Added tests for all converters and models.
+
 ## 1.0.0
 
 * Initial release of the OkColor package

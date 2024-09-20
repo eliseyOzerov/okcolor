@@ -1,7 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:okcolor/converters/xyz_rgb.dart';
-import 'package:okcolor/models/okcolor_base.dart';
+import 'package:okcolor/models/misc.dart';
+import 'package:okcolor/models/oklab.dart';
 import 'package:vector_math/vector_math.dart';
 
 // Source: https://bottosson.github.io/posts/oklab/#converting-from-linear-srgb-to-oklab

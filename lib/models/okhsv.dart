@@ -1,9 +1,8 @@
 import 'dart:ui';
 
 import 'package:okcolor/converters/rgb_okhsv.dart';
-import 'package:okcolor/models/flutter_color_conversions.dart';
-import 'package:okcolor/models/okcolor_base.dart';
-import 'package:okcolor/okcolor.dart';
+import 'package:okcolor/models/extensions.dart';
+import 'package:okcolor/utils/hue_util.dart';
 
 enum Hue {
   red,
@@ -20,24 +19,24 @@ enum Hue {
   pink,
 }
 
+/// Represents a color in the HSV (Hue, Saturation, Value) color space.
+/// h: Hue, in range [0, 1] representing 0 to 360 degrees
+/// s: Saturation, in range [0, 1]
+/// v: Value, in range [0, 1]
+/// Example usage:
+///   HSV hsv = srgbToOkhsv(RGB(0.5, 0.5, 0.5));
+///   // Saturation and Value are used in calculations:
+///   double L_v = 1 - hsv.s * S_0 / (S_0 + T_max - T_max * k * hsv.s);
+///   double L = hsv.v * L_v;
 class OkHsv {
   final double h;
   final double s;
   final double v;
   final double alpha;
 
-  const OkHsv({
-    required this.h,
-    required this.s,
-    required this.v,
-    this.alpha = 1,
-  });
+  const OkHsv(this.h, this.s, this.v, {this.alpha = 1});
 
   // ------ Constructors ------ //
-
-  factory OkHsv.fromHsv(OkHSV hsv) {
-    return OkHsv(h: hsv.h, s: hsv.s, v: hsv.v, alpha: 1);
-  }
 
   factory OkHsv.fromHue(Hue hue, List<OkHsv> colors) {
     double highestDistance = double.infinity;
@@ -57,8 +56,27 @@ class OkHsv {
   }
 
   factory OkHsv.fromColor(Color color) {
-    final hsv = srgbToOkhsv(color.toRgb());
-    return OkHsv(h: hsv.h, s: hsv.s, v: hsv.v, alpha: color.alpha / 255);
+    return rgbToOkHsv(color.toRgb());
+  }
+
+  OkHsv withHue(double hue) {
+    return copyWith(h: hue);
+  }
+
+  OkHsv withSaturation(double saturation) {
+    return copyWith(s: saturation);
+  }
+
+  OkHsv withValue(double value) {
+    return copyWith(v: value);
+  }
+
+  OkHsv withAlpha(double alpha) {
+    return copyWith(alpha: alpha);
+  }
+
+  OkHsv copyWith({double? h, double? s, double? v, double? alpha}) {
+    return OkHsv(h ?? this.h, s ?? this.s, v ?? this.v, alpha: alpha ?? this.alpha);
   }
 
   // ------ Getters ------ //
@@ -93,49 +111,27 @@ class OkHsv {
 
   List<OkHsv> hueCircle([int count = 12]) {
     final double step = 1 / count;
-    return List.generate(count, (index) => rotateAbsolute(step * index * 360));
+    return List.generate(count, (index) => addHue(step * index * 360));
   }
 
   // ------ Conversions ------ //
 
-  OkHSV toHsv() {
-    return OkHSV(h, s, v);
-  }
-
   Color toColor() {
-    final rgb = okhsvToSrgb(OkHSV(h, s, v));
-    return rgb.toColor();
+    return okhsvToSrgb(this).toColor();
   }
 
   // ------ Interpolation ------ //
 
   static OkHsv lerp(OkHsv start, OkHsv end, double fraction, {bool shortestPath = true}) {
-    final h = interpolateHue(start.h, end.h, fraction, shortestPath: shortestPath, normalizeHue: true);
     return OkHsv(
-      h: h,
-      s: lerpDouble(start.s, end.s, fraction) ?? 0,
-      v: lerpDouble(start.v, end.v, fraction) ?? 0,
+      interpolateHue(start.h, end.h, fraction, shortestPath: shortestPath, normalizeHue: false),
+      lerpDouble(start.s, end.s, fraction) ?? 0,
+      lerpDouble(start.v, end.v, fraction) ?? 0,
       alpha: lerpDouble(start.alpha, end.alpha, fraction) ?? 0,
     );
   }
 
   // ------ Modifiers ------ //
-
-  OkHsv withHue(double hue) {
-    return OkHsv(h: hue, s: s, v: v, alpha: alpha);
-  }
-
-  OkHsv withSaturation(double saturation) {
-    return OkHsv(h: h, s: saturation, v: v, alpha: alpha);
-  }
-
-  OkHsv withValue(double value) {
-    return OkHsv(h: h, s: s, v: value, alpha: alpha);
-  }
-
-  OkHsv withAlpha(double alpha) {
-    return OkHsv(h: h, s: s, v: v, alpha: alpha);
-  }
 
   OkHsv darker(double percentage) {
     return withValue(v * (1 - percentage));
@@ -153,15 +149,15 @@ class OkHsv {
     return withSaturation(s * (1 + percentage));
   }
 
-  OkHsv rotateRatio(double percentage) {
+  OkHsv addHuePercentage(double percentage) {
     return withHue((h + percentage) % 1);
   }
 
-  OkHsv rotateAbsolute(double angle) {
+  OkHsv addHue(double angle) {
     return withHue((h + angle / 360) % 1);
   }
 
-  OkHsv rotateTo(double angle) {
+  OkHsv withHueAngle(double angle) {
     return withHue((angle / 360) % 1);
   }
 }

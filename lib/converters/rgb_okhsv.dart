@@ -1,13 +1,15 @@
 import 'dart:math' as math;
 
 import 'package:okcolor/converters/rgb_oklab.dart';
-import 'package:okcolor/models/okcolor_base.dart';
+import 'package:okcolor/models/misc.dart';
+import 'package:okcolor/models/okhsv.dart';
+import 'package:okcolor/models/oklab.dart';
 import 'package:okcolor/utils/common.dart';
 import 'package:okcolor/utils/rgb_gamut_intersection.dart';
 
 // Source: https://bottosson.github.io/posts/colorpicker/#hsv-2
 
-RGB okhsvToSrgb(OkHSV hsv) {
+RGB okhsvToSrgb(OkHsv hsv) {
   double h = hsv.h;
   double s = hsv.s;
   double v = hsv.v;
@@ -53,9 +55,9 @@ RGB okhsvToSrgb(OkHSV hsv) {
   return okLabToRgb(OkLab(L, C * a_, C * b_));
 }
 
-OkHSV srgbToOkhsv(RGB rgb) {
+OkHsv rgbToOkHsv(RGB rgb) {
   if (rgb.r == 0 && rgb.g == 0 && rgb.b == 0) {
-    return OkHSV(0, 0, 0);
+    return const OkHsv(0, 0, 0);
   }
 
   OkLab lab = rgbToOkLab(rgb);
@@ -102,7 +104,7 @@ OkHSV srgbToOkhsv(RGB rgb) {
     s = 0;
   }
 
-  return OkHSV(h, s, v);
+  return OkHsv(h, s, v);
 }
 
 extension NonZero on double {

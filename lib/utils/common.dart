@@ -1,8 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:okcolor/models/misc.dart';
 import 'package:okcolor/utils/rgb_gamut_intersection.dart';
-
-import '../models/okcolor_base.dart';
 
 // Source: https://bottosson.github.io/posts/colorpicker/#common-code
 

@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:okcolor/converters/rgb_oklab.dart';
-
-import '../models/okcolor_base.dart';
+import 'package:okcolor/models/misc.dart';
+import 'package:okcolor/models/oklab.dart';
 
 // Source: https://bottosson.github.io/posts/gamutclipping/#intersection-with-srgb-gamut
 
