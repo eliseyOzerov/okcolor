@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:okcolor/models/okhsl.dart';
 import 'package:okcolor/models/okhsv.dart';
 import 'package:okcolor/models/oklab.dart';
 import 'package:okcolor/models/oklch.dart';
@@ -12,7 +13,7 @@ import 'package:okcolor/utils/hue_util.dart';
 
 // ------ ENUMS ------ //
 
-enum InterpolationMethod { oklab, okhsv, oklch, hsv, rgb }
+enum InterpolationMethod { oklab, okhsv, okhsl, oklch, hsv, rgb }
 
 abstract class OkColor {
   static Color interpolate(Color start, Color end, double fraction, {bool shortestPath = true, InterpolationMethod method = InterpolationMethod.oklab}) {
@@ -24,6 +25,10 @@ abstract class OkColor {
       final startHsv = OkHsv.fromColor(start);
       final endHsv = OkHsv.fromColor(end);
       return OkHsv.lerp(startHsv, endHsv, fraction, shortestPath: shortestPath).toColor();
+    } else if (method == InterpolationMethod.okhsl) {
+      final startHsl = OkHsl.fromColor(start);
+      final endHsl = OkHsl.fromColor(end);
+      return OkHsl.lerp(startHsl, endHsl, fraction, shortestPath: shortestPath).toColor();
     } else if (method == InterpolationMethod.oklch) {
       final startLch = OkLch.fromColor(start);
       final endLch = OkLch.fromColor(end);
