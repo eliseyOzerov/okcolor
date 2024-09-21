@@ -31,53 +31,51 @@ extension ColorExt on Color {
 
 extension OkColorExt on Color {
   Color darker(double percentage) {
-    final res = toOkLab().darker(percentage);
-    print(res);
-    return res.toColor();
+    return toOkHsl().darker(percentage).toColor();
   }
 
   Color lighter(double percentage) {
-    return toOkLab().lighter(percentage).toColor();
+    return toOkHsl().lighter(percentage).toColor();
   }
 
-  Color saturated(double percentage) {
-    return toOkLch().saturated(percentage).toColor();
+  Color saturate(double percentage) {
+    return toOkHsl().saturate(percentage).toColor();
   }
 
-  Color desaturated(double percentage) {
-    return toOkLch().desaturated(percentage).toColor();
+  Color desaturate(double percentage) {
+    return toOkHsl().desaturate(percentage).toColor();
   }
 
   Color rotated(double degrees) {
-    return toOkLch().rotated(degrees).toColor();
+    return toOkHsl().rotated(degrees).toColor();
   }
 
   Color complementary() {
-    return toOkLch().complementary().toColor();
+    return toOkHsl().complementary().toColor();
   }
 
   List<Color> splitComplementary() {
-    return toOkLch().splitComplementary().map((c) => c.toColor()).toList();
+    return toOkHsl().splitComplementary().map((c) => c.toColor()).toList();
   }
 
   List<Color> triadic() {
-    return toOkLch().triadic().map((c) => c.toColor()).toList();
+    return toOkHsl().triadic().map((c) => c.toColor()).toList();
   }
 
   List<Color> tetradic() {
-    return toOkLch().tetradic().map((c) => c.toColor()).toList();
+    return toOkHsl().tetradic().map((c) => c.toColor()).toList();
   }
 
   List<Color> analogous({int count = 2, double angle = 30}) {
-    return toOkLch().analogous(count: count, angle: angle).map((c) => c.toColor()).toList();
+    return toOkHsl().analogous(count: count, angle: angle).map((c) => c.toColor()).toList();
   }
 
   List<Color> shades({int count = 5}) {
-    return toOkLch().shades(count: count).map((c) => c.toColor()).toList();
+    return toOkHsl().shades(count: count).map((c) => c.toColor()).toList();
   }
 
   List<Color> tints({int count = 5}) {
-    return toOkLch().tints(count: count).map((c) => c.toColor()).toList();
+    return toOkHsl().tints(count: count).map((c) => c.toColor()).toList();
   }
 }
 

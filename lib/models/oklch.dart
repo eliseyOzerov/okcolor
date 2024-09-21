@@ -5,7 +5,7 @@ import 'package:okcolor/converters/lab_lch.dart';
 import 'package:okcolor/converters/rgb_oklab.dart';
 import 'package:okcolor/models/extensions.dart';
 import 'package:okcolor/models/oklab.dart';
-import 'package:okcolor/utils/lerp.dart';
+import 'package:okcolor/utils/lerp.dart' as lp;
 
 enum Hue {
   red,
@@ -63,19 +63,19 @@ class OkLch {
   }
 
   OkLch darker(double percentage) {
-    return copyWith(lightness: l * (1 - percentage));
+    return copyWith(lightness: lp.lerp(l, 0, percentage));
   }
 
   OkLch lighter(double percentage) {
-    return copyWith(lightness: l * (1 + percentage));
+    return copyWith(lightness: lp.lerp(l, 1, percentage));
   }
 
-  OkLch saturated(double percentage) {
-    return copyWith(chroma: c * (1 + percentage));
+  OkLch saturate(double percentage) {
+    return copyWith(chroma: lp.lerp(c, 1, percentage));
   }
 
-  OkLch desaturated(double percentage) {
-    return copyWith(chroma: c * (1 - percentage));
+  OkLch desaturate(double percentage) {
+    return copyWith(chroma: lp.lerp(c, 0, percentage));
   }
 
   OkLch rotated(double degrees) {
@@ -131,7 +131,7 @@ class OkLch {
     return OkLch(
       lerpDouble(start.l, end.l, fraction) ?? 0,
       lerpDouble(start.c, end.c, fraction) ?? 0,
-      lerpAngle(start.h, end.h, fraction, range: 2 * pi, shortestPath: shortestPath),
+      lp.lerpAngle(start.h, end.h, fraction, range: 2 * pi, shortestPath: shortestPath),
     );
   }
 
@@ -147,11 +147,11 @@ class OkLch {
   }
 
   List<OkLch> splitComplementary() {
-    return [this, complementary(), rotated(150), rotated(210)];
+    return [rotated(150), this, rotated(210)];
   }
 
   List<OkLch> triadic() {
-    return [this, complementary(), rotated(120)];
+    return [rotated(120), this, rotated(240)];
   }
 
   List<OkLch> tetradic() {
@@ -161,7 +161,9 @@ class OkLch {
   List<OkLch> analogous({int count = 2, double angle = 30}) {
     List<OkLch> colors = [this];
     for (int i = 1; i <= count; i++) {
-      colors.add(rotated(angle * i));
+      colors.insert(0, rotated(angle * i));
+    }
+    for (int i = 1; i <= count; i++) {
       colors.add(rotated(-angle * i));
     }
     return colors;
@@ -170,14 +172,14 @@ class OkLch {
   List<OkLch> shades({int count = 5}) {
     return List.generate(count, (index) {
       double t = index / (count - 1);
-      return OkLch(lerpDouble(l, 0, t) ?? 0, c, h);
+      return darker(t);
     });
   }
 
   List<OkLch> tints({int count = 5}) {
     return List.generate(count, (index) {
       double t = index / (count - 1);
-      return OkLch(lerpDouble(l, 1, t) ?? 0, c, h);
+      return lighter(t);
     });
   }
 

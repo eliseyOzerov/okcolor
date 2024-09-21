@@ -71,6 +71,7 @@ class _HarmoniesState extends State<Harmonies> {
   double lighter = 0;
   double saturated = 0;
   double desaturated = 0;
+  double rotation = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,7 @@ class _HarmoniesState extends State<Harmonies> {
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: Colors.black12, width: 1),
+                  border: Border.all(color: color.darker(0.2), width: 1),
                   color: color,
                 ),
                 child: ClipRRect(
@@ -180,6 +181,260 @@ class _HarmoniesState extends State<Harmonies> {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 16),
+              Text("Saturation", style: GoogleFonts.rubik(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: color.saturate(saturated),
+                            ),
+                            width: double.infinity,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text('Saturated', style: GoogleFonts.rubik(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+                        const SizedBox(height: 8),
+                        Slider(
+                          value: saturated,
+                          onChanged: (value) {
+                            setState(() {
+                              saturated = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: color.desaturate(desaturated),
+                            ),
+                            width: double.infinity,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text('Desaturated', style: GoogleFonts.rubik(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+                        const SizedBox(height: 8),
+                        Slider(
+                          value: desaturated,
+                          onChanged: (value) {
+                            setState(() {
+                              desaturated = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text("Hues", style: GoogleFonts.rubik(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: color.rotated(rotation * 360),
+                            ),
+                            width: double.infinity,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text('Rotated', style: GoogleFonts.rubik(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+                        const SizedBox(height: 8),
+                        Slider(
+                          value: rotation,
+                          onChanged: (value) {
+                            setState(() {
+                              rotation = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: color.rotated(rotation * 360).complementary(),
+                            ),
+                            width: double.infinity,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text('Complementary', style: GoogleFonts.rubik(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text("Split complementary", style: GoogleFonts.rubik(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: color.rotated(rotation * 360).splitComplementary().map((c) {
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: c,
+                          ),
+                          width: double.infinity,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              Text("Triadic", style: GoogleFonts.rubik(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: color.rotated(rotation * 360).triadic().map((c) {
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: c,
+                          ),
+                          width: double.infinity,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              Text("Tetradic", style: GoogleFonts.rubik(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: color.rotated(rotation * 360).tetradic().map((c) {
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: c,
+                          ),
+                          width: double.infinity,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              Text("Analogous", style: GoogleFonts.rubik(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: color.rotated(rotation * 360).analogous().map((c) {
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: c,
+                          ),
+                          width: double.infinity,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              Text("Shades", style: GoogleFonts.rubik(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: color.rotated(rotation * 360).shades().map((c) {
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: c,
+                          ),
+                          width: double.infinity,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              Text("Tints", style: GoogleFonts.rubik(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: -0.25)),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: color.rotated(rotation * 360).tints().map((c) {
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: c,
+                          ),
+                          width: double.infinity,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ],
           ),

@@ -143,16 +143,16 @@ void main() {
 
     test('saturated and desaturated', () {
       final color = OkLch(0.5, 0.2, 0.3);
-      expect(color.saturated(0.5).c, closeTo(0.3, 1e-6));
-      expect(color.desaturated(0.5).c, closeTo(0.1, 1e-6));
+      expect(color.saturate(0.5).c, closeTo(0.3, 1e-6));
+      expect(color.desaturate(0.5).c, closeTo(0.1, 1e-6));
 
       final color2 = OkLch(0.8, 0.4, 1.0);
-      expect(color2.saturated(0.25).c, closeTo(0.5, 1e-6));
-      expect(color2.desaturated(0.75).c, closeTo(0.1, 1e-6));
+      expect(color2.saturate(0.25).c, closeTo(0.5, 1e-6));
+      expect(color2.desaturate(0.75).c, closeTo(0.1, 1e-6));
 
       final color3 = OkLch(0.3, 0.6, 2.0);
-      expect(color3.saturated(1.0).c, closeTo(1.2, 1e-6));
-      expect(color3.desaturated(0.1).c, closeTo(0.54, 1e-6));
+      expect(color3.saturate(1.0).c, closeTo(1.2, 1e-6));
+      expect(color3.desaturate(0.1).c, closeTo(0.54, 1e-6));
     });
 
     test('rotated', () {
