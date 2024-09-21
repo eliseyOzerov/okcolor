@@ -42,7 +42,13 @@ class OkHsv {
     return OkHsv(h ?? this.h, s ?? this.s, v ?? this.v);
   }
 
-  // ------ Getters ------ //
+  OkHsv darker(double percentage) {
+    return withValue(v * (1 - percentage));
+  }
+
+  OkHsv lighter(double percentage) {
+    return withValue(v * (1 + percentage));
+  }
 
   // ------ Conversions ------ //
 

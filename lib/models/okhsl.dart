@@ -48,6 +48,14 @@ class OkHsl {
     return copyWith(lightness: lightness);
   }
 
+  OkHsl darker(double percentage) {
+    return withLightness(l * (1 - percentage));
+  }
+
+  OkHsl lighter(double percentage) {
+    return withLightness(l * (1 + percentage));
+  }
+
   // ------ Conversions ------ //
 
   Color toColor() {

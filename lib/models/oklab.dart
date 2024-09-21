@@ -27,6 +27,11 @@ class OkLab {
 
   OkLab(this.L, this.a, this.b);
 
+  @override
+  String toString() {
+    return 'OkLab($L, $a, $b)';
+  }
+
   // ------ Constructors ------ //
 
   factory OkLab.fromColor(Color color) {
@@ -50,6 +55,15 @@ class OkLab {
   OkLab withB(double b) {
     return copyWith(b: b);
   }
+
+  OkLab darker(double percentage) {
+    return OkLab(L * (1 - percentage), a, b);
+  }
+
+  OkLab lighter(double percentage) {
+    return OkLab(L * (1 + percentage), a, b);
+  }
+
   // ------ Conversions ------ //
 
   Color toColor() {

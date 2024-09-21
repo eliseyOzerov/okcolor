@@ -84,7 +84,9 @@ class OkLch {
 
   // ------ Getters ------ //
 
-  // Source: https://bottosson.github.io/misc/colorpicker/#ff00ff
+  // Source:
+  // https://bottosson.github.io/misc/colorpicker/#ff00ff
+  // https://oklch.com
   static const Map<Hue, int> hues = {
     Hue.pink: 3, // rgb 330
     Hue.red: 29, // rgb 360/0
