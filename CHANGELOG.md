@@ -1,3 +1,10 @@
+## 1.1.0
+
+* Polished the API
+* Added more examples
+* Added more tests
+* Updated READMEs
+
 ## 1.0.1
 
 * Added tests for all converters and models.
