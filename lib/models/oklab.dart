@@ -25,10 +25,7 @@ class OkLab {
   final double a;
   final double b;
 
-  OkLab(double L, double a, double b)
-      : L = L.clamp(0, 1),
-        a = a.clamp(-0.5, 0.5),
-        b = b.clamp(-0.5, 0.5);
+  OkLab(this.L, this.a, this.b);
 
   // ------ Constructors ------ //
 
@@ -93,22 +90,6 @@ class OkLab {
 
   OkLab operator -(OkLab other) {
     return OkLab(L - other.L, a - other.a, b - other.b);
-  }
-
-  OkLab operator *(double scalar) {
-    return OkLab(L * scalar, a * scalar, b * scalar);
-  }
-
-  OkLab operator /(double scalar) {
-    return OkLab(L / scalar, a / scalar, b / scalar);
-  }
-
-  OkLab operator -() {
-    return OkLab(-L, -a, -b);
-  }
-
-  OkLab operator %(double scalar) {
-    return OkLab(L % scalar, a % scalar, b % scalar);
   }
 
   @override

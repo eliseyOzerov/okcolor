@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:okcolor/models/extensions.dart';
 import 'package:okcolor/models/oklab.dart';
 import 'package:okcolor/models/oklch.dart';
 
@@ -18,10 +19,4 @@ OkLab lchToLab(OkLch lch) {
   final a = lch.c * math.cos(lch.h);
   final b = lch.c * math.sin(lch.h);
   return OkLab(lch.l, a, b);
-}
-
-extension DoubleExtension on double {
-  double roundTo(int places) {
-    return (this * math.pow(10, places)).round() / math.pow(10, places);
-  }
 }

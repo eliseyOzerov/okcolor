@@ -3,7 +3,7 @@ import 'package:okcolor/models/okhsl.dart';
 import 'package:okcolor/models/okhsv.dart';
 import 'package:okcolor/models/oklab.dart';
 import 'package:okcolor/models/oklch.dart';
-import 'package:okcolor/utils/hue_util.dart';
+import 'package:okcolor/utils/lerp.dart';
 
 // Additional resources:
 // https://bottosson.github.io/misc/colorpicker/
@@ -36,7 +36,7 @@ abstract class OkColor {
     } else if (method == InterpolationMethod.hsv) {
       HSVColor startHsv = HSVColor.fromColor(start);
       HSVColor endHsv = HSVColor.fromColor(end);
-      double hue = interpolateHue(startHsv.hue, endHsv.hue, fraction, shortestPath: shortestPath, normalizeHue: false);
+      double hue = lerpAngle(startHsv.hue, endHsv.hue, fraction, shortestPath: shortestPath, range: 360);
       HSVColor lerpedColor = HSVColor.lerp(startHsv, endHsv, fraction)!.withHue(hue);
       return lerpedColor.toColor();
     } else {

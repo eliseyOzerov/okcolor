@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:okcolor/models/misc.dart';
@@ -21,10 +22,19 @@ extension ColorExt on Color {
 extension RgbExt on RGB {
   Color toColor() {
     return Color.fromRGBO(
-      (r * 255).floor().clamp(0, 255),
-      (g * 255).floor().clamp(0, 255),
-      (b * 255).floor().clamp(0, 255),
+      (r * 255).round().clamp(0, 255),
+      (g * 255).round().clamp(0, 255),
+      (b * 255).round().clamp(0, 255),
       1,
     );
   }
+}
+
+extension DoubleExtension on double {
+  double roundTo(int places) {
+    return (this * pow(10, places)).round() / pow(10, places);
+  }
+
+  double get degToRad => this * pi / 180;
+  double get radToDeg => this * 180 / pi;
 }

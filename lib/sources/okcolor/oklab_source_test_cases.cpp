@@ -360,18 +360,62 @@ void okhsv_srgb_test_cases() {
     }
 }
 
+// ------------------------ OkLch sRGB test cases ------------------------ //
+
+void test_oklch_srgb_conversion(RGB rgb_in) {
+    std::cout << std::fixed << std::setprecision(9);
+
+    RGB standard = {
+        std::round(rgb_in.r * 255) / 255,
+        std::round(rgb_in.g * 255) / 255,
+        std::round(rgb_in.b * 255) / 255,
+    };
+
+    RGB standard_print = {
+        std::round(standard.r * 255),
+        std::round(standard.g * 255),
+        std::round(standard.b * 255),
+    };
+    
+    Lch lch = srgb_to_oklch(standard);
+    RGB rgb_out = oklch_to_srgb(lch);
+    
+    std::cout << "RGB (" << standard_print.r << ", " << standard_print.g << ", " << standard_print.b << ") -> "
+              << "LCH (" << lch.l << ", " << lch.c << ", " << lch.h << ") -> "
+              << "RGB (" << rgb_out.r << ", " << rgb_out.g << ", " << rgb_out.b << ")";
+
+    float max_diff = std::max({std::abs(standard.r - rgb_out.r),
+                               std::abs(standard.g - rgb_out.g),
+                               std::abs(standard.b - rgb_out.b)});
+
+    if (max_diff < 1e-6) {
+        std::cout << " PASS";
+    } else {
+        std::cout << " FAIL (Max difference: " << max_diff << ")";
+    }
+    std::cout << std::endl;
+}
+
+void oklch_srgb_test_cases() {
+    std::cout << "\nRunning OkLCH to sRGB conversion tests:" << std::endl;
+    for (const auto& color : test_colors) {
+        test_oklch_srgb_conversion(color);
+    }
+}
+
 // ------------------------ Main ------------------------ //
 
 int main() {
-    // linear_srgb_to_srgb_test_cases();
-    // compute_max_saturation_test_cases();
-    // find_cusp_test_cases();
-    // find_gamut_intersection_test_cases();
-    // common_test_cases();
-    // oklab_srgb_test_cases();
-		okhsl_srgb_test_cases();
-    // okhsv_srgb_test_cases();
-		return 0;
+    linear_srgb_to_srgb_test_cases();
+    compute_max_saturation_test_cases();
+    find_cusp_test_cases();
+    find_gamut_intersection_test_cases();
+    common_test_cases();
+    oklab_srgb_test_cases();
+	okhsl_srgb_test_cases();
+    okhsv_srgb_test_cases();
+    oklch_srgb_test_cases();
+	return 0;
 }
 
 // Output:

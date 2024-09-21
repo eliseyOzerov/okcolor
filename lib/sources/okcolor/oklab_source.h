@@ -28,6 +28,7 @@ struct RGB { float r; float g; float b; };
 struct HSV { float h; float s; float v; };
 struct HSL { float h; float s; float l; };
 struct LC { float L; float C; };
+struct Lch { float l; float c; float h; };
 
 // Alternative representation of (L_cusp, C_cusp)
 // Encoded so S = C_cusp/L_cusp and T = C_cusp/(1-L_cusp) 
@@ -551,8 +552,7 @@ HSL srgb_to_okhsl(RGB rgb)
 		srgb_transfer_function_inv(rgb.g),
 		srgb_transfer_function_inv(rgb.b)
 	};
-	printf("CPP_srgb_to_okhsl: r = %.15f, g = %.15f, b = %.15f\n", linear_rgb.r, linear_rgb.g, linear_rgb.b);
-	
+
 	Lab lab = linear_srgb_to_oklab(linear_rgb);
 	
 
@@ -562,9 +562,6 @@ HSL srgb_to_okhsl(RGB rgb)
 	
 	float L = lab.L;
 	float h = 0.5f + 0.5f * atan2f(-lab.b, -lab.a) / pi;
-
-	printf("CPP_srgb_to_okhsl: L = %.15f, a = %.15f, b = %.15f\n", lab.L, lab.a, lab.b);
-	printf("CPP_srgb_to_okhsl: h = %.15f\n", h);
 
 	Cs cs = get_Cs(L, a_, b_);
 	float C_0 = cs.C_0;
@@ -695,6 +692,40 @@ HSV srgb_to_okhsv(RGB rgb)
 	float s = (S_0 + T_max) * C_v / ((T_max * S_0) + T_max * k * C_v);
 
 	return { h, s, v };
+}
+
+// ------------------------ OkLch ------------------------ //
+
+Lch oklab_to_lch(Lab lab) {
+    float C = sqrtf(lab.a * lab.a + lab.b * lab.b);
+    float h = atan2f(lab.b, lab.a);
+    return { lab.L, C, h };
+}
+
+Lab lch_to_oklab(Lch lch) {
+    float a = lch.c * cosf(lch.h);
+    float b = lch.c * sinf(lch.h);
+    return { lch.l, a, b };
+}
+
+Lch srgb_to_oklch(RGB rgb) {
+	RGB linear_rgb = {
+		srgb_transfer_function_inv(rgb.r),
+		srgb_transfer_function_inv(rgb.g),
+		srgb_transfer_function_inv(rgb.b)
+	};
+    Lab lab = linear_srgb_to_oklab(linear_rgb);
+    return oklab_to_lch(lab);
+}
+
+RGB oklch_to_srgb(Lch lch) {
+    Lab lab = lch_to_oklab(lch);
+		RGB linear_rgb = oklab_to_linear_srgb(lab);
+    return {
+			srgb_transfer_function(linear_rgb.r),
+			srgb_transfer_function(linear_rgb.g),
+			srgb_transfer_function(linear_rgb.b)
+		};
 }
 
 } // namespace ok_color

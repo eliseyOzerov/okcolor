@@ -2,22 +2,7 @@ import 'dart:ui';
 
 import 'package:okcolor/converters/rgb_okhsv.dart';
 import 'package:okcolor/models/extensions.dart';
-import 'package:okcolor/utils/hue_util.dart';
-
-enum Hue {
-  red,
-  orange,
-  yellow,
-  lime,
-  green,
-  teal,
-  cyan,
-  sky,
-  blue,
-  purple,
-  magenta,
-  pink,
-}
+import 'package:okcolor/utils/lerp.dart';
 
 /// Represents a color in the HSV (Hue, Saturation, Value) color space.
 /// h: Hue, in range [0, 1] representing 0 to 360 degrees
@@ -32,32 +17,10 @@ class OkHsv {
   final double h;
   final double s;
   final double v;
-  final double alpha;
 
-  OkHsv(double h, double s, double v, {double alpha = 1})
-      : h = h.clamp(0, 1),
-        s = s.clamp(0, 1),
-        v = v.clamp(0, 1),
-        alpha = alpha.clamp(0, 1);
+  OkHsv(this.h, this.s, this.v);
 
   // ------ Constructors ------ //
-
-  factory OkHsv.fromHue(Hue hue, List<OkHsv> colors) {
-    double highestDistance = double.infinity;
-    late OkHsv result;
-    int hueVal = hues[hue]!;
-    if (hue == Hue.pink) {
-      hueVal = 360;
-    }
-    for (final color in colors) {
-      final distance = (color.h - hueVal).abs();
-      if (distance < highestDistance) {
-        highestDistance = distance;
-        result = color;
-      }
-    }
-    return result;
-  }
 
   factory OkHsv.fromColor(Color color) {
     return rgbToOkHsv(color.toRgb());
@@ -75,48 +38,11 @@ class OkHsv {
     return copyWith(v: value);
   }
 
-  OkHsv withAlpha(double alpha) {
-    return copyWith(alpha: alpha);
-  }
-
   OkHsv copyWith({double? h, double? s, double? v, double? alpha}) {
-    return OkHsv(h ?? this.h, s ?? this.s, v ?? this.v, alpha: alpha ?? this.alpha);
+    return OkHsv(h ?? this.h, s ?? this.s, v ?? this.v);
   }
 
   // ------ Getters ------ //
-
-  static const Map<Hue, int> hues = {
-    Hue.pink: 0,
-    Hue.red: 30,
-    Hue.orange: 60,
-    Hue.yellow: 90,
-    Hue.lime: 120,
-    Hue.green: 140,
-    Hue.teal: 160,
-    Hue.cyan: 190,
-    Hue.sky: 230,
-    Hue.blue: 270,
-    Hue.purple: 300,
-    Hue.magenta: 330,
-  };
-
-  Hue get hue {
-    double highestDistance = double.infinity;
-    late Hue result;
-    for (final hue in hues.entries) {
-      final distance = (h - hue.value).abs();
-      if (distance < highestDistance) {
-        highestDistance = distance;
-        result = hue.key;
-      }
-    }
-    return result;
-  }
-
-  List<OkHsv> hueCircle([int count = 12]) {
-    final double step = 1 / count;
-    return List.generate(count, (index) => addHue(step * index * 360));
-  }
 
   // ------ Conversions ------ //
 
@@ -128,40 +54,9 @@ class OkHsv {
 
   static OkHsv lerp(OkHsv start, OkHsv end, double fraction, {bool shortestPath = true}) {
     return OkHsv(
-      interpolateHue(start.h, end.h, fraction, shortestPath: shortestPath, normalizeHue: false),
+      lerpAngle(start.h, end.h, fraction, shortestPath: shortestPath),
       lerpDouble(start.s, end.s, fraction) ?? 0,
       lerpDouble(start.v, end.v, fraction) ?? 0,
-      alpha: lerpDouble(start.alpha, end.alpha, fraction) ?? 0,
     );
-  }
-
-  // ------ Modifiers ------ //
-
-  OkHsv darker(double percentage) {
-    return withValue(v * (1 - percentage));
-  }
-
-  OkHsv lighter(double percentage) {
-    return withValue(v * (1 + percentage));
-  }
-
-  OkHsv duller(double percentage) {
-    return withSaturation(s * (1 - percentage));
-  }
-
-  OkHsv richer(double percentage) {
-    return withSaturation(s * (1 + percentage));
-  }
-
-  OkHsv addHuePercentage(double percentage) {
-    return withHue((h + percentage) % 1);
-  }
-
-  OkHsv addHue(double angle) {
-    return withHue((h + angle / 360) % 1);
-  }
-
-  OkHsv withHueAngle(double angle) {
-    return withHue((angle / 360) % 1);
   }
 }

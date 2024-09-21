@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:okcolor/converters/rgb_okhsl.dart';
 import 'package:okcolor/models/extensions.dart';
-import 'package:okcolor/utils/hue_util.dart';
+import 'package:okcolor/utils/lerp.dart';
 
 /// Represents a color in the HSL (Hue, Saturation, Lightness) color space.
 /// h: Hue, in range [0, 1] representing 0 to 360 degrees
@@ -18,10 +18,7 @@ class OkHsl {
   double s;
   double l;
 
-  OkHsl(double h, double s, double l)
-      : h = h.clamp(0, 1),
-        s = s.clamp(0, 1),
-        l = l.clamp(0, 1);
+  OkHsl(this.h, this.s, this.l);
 
   @override
   String toString() {
@@ -60,7 +57,7 @@ class OkHsl {
 
   static OkHsl lerp(OkHsl a, OkHsl b, double t, {bool shortestPath = true}) {
     return OkHsl(
-      interpolateHue(a.h, b.h, t, shortestPath: shortestPath, normalizeHue: false),
+      lerpAngle(a.h, b.h, t, shortestPath: shortestPath),
       lerpDouble(a.s, b.s, t) ?? 0,
       lerpDouble(a.l, b.l, t) ?? 0,
     );
