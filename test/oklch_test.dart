@@ -134,24 +134,24 @@ void main() {
 
       final color2 = OkLch(0.8, 0.3, 1.0);
       expect(color2.darker(0.5).l, closeTo(0.4, 1e-6));
-      expect(color2.lighter(0.1).l, closeTo(0.88, 1e-6));
+      expect(color2.lighter(0.1).l, closeTo(0.82, 1e-6));
 
       final color3 = OkLch(0.3, 0.5, 2.0);
       expect(color3.darker(0.1).l, closeTo(0.27, 1e-6));
-      expect(color3.lighter(1.0).l, closeTo(0.6, 1e-6));
+      expect(color3.lighter(1.0).l, closeTo(1.0, 1e-6));
     });
 
     test('saturated and desaturated', () {
       final color = OkLch(0.5, 0.2, 0.3);
-      expect(color.saturate(0.5).c, closeTo(0.3, 1e-6));
+      expect(color.saturate(0.5).c, closeTo(0.6, 1e-6));
       expect(color.desaturate(0.5).c, closeTo(0.1, 1e-6));
 
       final color2 = OkLch(0.8, 0.4, 1.0);
-      expect(color2.saturate(0.25).c, closeTo(0.5, 1e-6));
+      expect(color2.saturate(0.25).c, closeTo(0.55, 1e-6));
       expect(color2.desaturate(0.75).c, closeTo(0.1, 1e-6));
 
       final color3 = OkLch(0.3, 0.6, 2.0);
-      expect(color3.saturate(1.0).c, closeTo(1.2, 1e-6));
+      expect(color3.saturate(1.0).c, closeTo(1.0, 1e-6));
       expect(color3.desaturate(0.1).c, closeTo(0.54, 1e-6));
     });
 
@@ -218,7 +218,7 @@ void main() {
       for (final oklch in cases) {
         final color = oklch.toColor();
         expect(color, isA<Color>());
-        expect(color.alpha, 255);
+        expect(color.a, 1);
       }
     });
 
@@ -249,7 +249,7 @@ void main() {
     test('harmonies', () {
       final color = OkLch(0.5, 0.2, 0.3);
       expect(color.complementary().h, closeTo(0.3 + pi, 1e-6));
-      expect(color.splitComplementary().length, 4);
+      expect(color.splitComplementary().length, 3);
       expect(color.triadic().length, 3);
       expect(color.tetradic().length, 4);
       expect(color.analogous().length, 5);

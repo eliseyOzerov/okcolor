@@ -25,7 +25,7 @@ extension ColorExt on Color {
   }
 
   RGB toRgb() {
-    return RGB(red / 255, green / 255, blue / 255);
+    return RGB(r, g, b);
   }
 }
 

@@ -77,7 +77,7 @@ class _HSVColorWheelPainter extends CustomPainter {
     canvas.drawCircle(center, radius, huePaint);
 
     final lightnessShader = RadialGradient(
-      colors: [Colors.white, Colors.white.withOpacity(0)],
+      colors: [Colors.white, Colors.white.withValues(alpha: 0)],
     ).createShader(Rect.fromCircle(center: center, radius: radius));
 
     final lightnessPaint = Paint()
