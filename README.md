@@ -16,7 +16,7 @@ Add `okcolor` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  okcolor: ^1.0.1
+  okcolor: ^1.1.0
 ```
 
 Then run `flutter pub get`.
